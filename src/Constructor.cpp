@@ -14,35 +14,35 @@ The constructor will fail if you say you have a connection to a module, but that
 */
 
 bool Constructor::constructThreadedRobot(std::vector<ModuleBase*> modules) {
-    std::vector< std::vector<GenericPipe*> > pipes = {{ nullptr }};
-		
-		// There is certainly a better way to do this
-		for (uint8_t i = 0; i < modules.size(); i++) {
-			ModuleBase* thisModule = modules[i];
-			std::vector<uint8_t> thisArg = thisModule->constructorArgs;
+	std::vector< std::vector<GenericPipe*> > pipes = {{ nullptr }};
+	
+	// There is certainly a better way to do this
+	for (uint8_t i = 0; i < modules.size(); i++) {
+		ModuleBase* thisModule = modules[i];
+		std::vector<uint8_t> thisArg = thisModule->constructorArgs;
 
-			for (uint8_t j = 0; j < thisArg.size(); j++) {
-				if (pipes[i][j] != nullptr) { continue; }
+		for (uint8_t j = 0; j < thisArg.size(); j++) {
+			if (pipes[i][j] != nullptr) { continue; }
 
-				uint8_t reference = thisArg[j]; // The target module connection
-				
-				if (reference == i) { return false; }// No self-referential connections
+			uint8_t reference = thisArg[j]; // The target module connection
 			
-				std::vector<uint8_t> targetArg = modules[reference]->constructorArgs;
-				
-				// For the web to make sense, i must be in targetArg
-				uint8_t positionInTarget;
+			if (reference == i) { return false; }// No self-referential connections
+		
+			std::vector<uint8_t> targetArg = modules[reference]->constructorArgs;
+			
+			// For the web to make sense, i must be in targetArg
+			uint8_t positionInTarget;
 
-				for (uint8_t k = 0; k < targetArg.size(); k++) {
-						if (i == targetArg[k]) { positionInTarget = k; break; }
-						if (k == (targetArg.size() - 1)) { return false; }
-				}
-
-				pipes[i][j] = pipes[reference][positionInTarget] = new GenericPipe();
+			for (uint8_t k = 0; k < targetArg.size(); k++) {
+				if (i == targetArg[k]) { positionInTarget = k; break; }
+				if (k == (targetArg.size() - 1)) { return false; }
 			}
-		}
-    // For each element of the vector<ModuleBase*>, create a new thread for the function ModuleBase::init and pass it the correct pipes
 
-    for (uint8_t i = 0; i < modules.size(); i++) { std::thread(&ModuleBase::init, modules[i], pipes[i]); }
-		return true;
+			pipes[i][j] = pipes[reference][positionInTarget] = new GenericPipe();
+		}
+	}
+	// For each element of the vector<ModuleBase*>, create a new thread for the function ModuleBase::init and pass it the correct pipes
+
+	for (uint8_t i = 0; i < modules.size(); i++) { std::thread(&ModuleBase::init, modules[i], pipes[i]); }
+	return true;
 }
