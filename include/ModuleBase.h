@@ -7,8 +7,11 @@
 #include <thread>
 #include <chrono>
 
-#include "Error.h"
 #include "GenericPipe.h"
+
+// ModuleBase Errors do not pollute Custom Error Namespace
+#define ERR_MSINTERVAL_NOT_SET 1
+#define ERR_PERIODICINTERVAL_OVERRUN 2
 
 /**
  * Abstract Class ModuleBase, inherit from this to create a module
