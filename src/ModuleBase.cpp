@@ -4,25 +4,21 @@
 #include "ModuleBase.h"
 
 void ModuleBase::init(std::vector<GenericPipe*> pipes) {
-    this->pipes = pipes; // Previously handled by the function ModuleBase::plumber(), it wasn't necessary to have two functions
+	this->pipes = pipes; // Previously handled by the function ModuleBase::plumber(), it wasn't necessary to have two functions
 
-    periodicInit(); // Run the module's init
+	periodicInit(); // Run the module's init
 
-    if (!msInterval) { // Make sure that the interval is set after init
-			// Need pattern that doesn't break abstraction
-			return;
-    }
+	while (true) { // Can add some termination flag in the future if necessary
+		auto nextRun = std::chrono::steady_clock::now() + std::chrono::milliseconds(msInterval);
 		
-    while (true) { // Can add some termination flag in the future if necessary
-			auto nextRun = std::chrono::steady_clock::now() + std::chrono::milliseconds(msInterval);
+		periodicRoutine(); // Run the module's code
+		
+		// Optimize this
+		if (std::chrono::steady_clock::now() > nextRun) { // periodicRoutine() has overrun its set interval
+				errors->push(new GenericError("Execution interval overrun! Behind schedule!", 3));
+				continue;
+		}
 
-			periodicRoutine(); // Run the module's code
-			
-			// Optimize this
-			if (std::chrono::steady_clock::now() > nextRun) { // periodicRoutine() has overrun its set interval
-					continue;
-			}
-
-			std::this_thread::sleep_until(nextRun);
-    }
+		std::this_thread::sleep_until(nextRun);
+	}
 }
