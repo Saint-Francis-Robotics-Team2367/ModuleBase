@@ -4,14 +4,12 @@
 #define MODULEBASE_H
 
 #include <vector>
+#include <queue>
 #include <thread>
 #include <chrono>
 
 #include "GenericPipe.h"
-
-// ModuleBase Errors do not pollute Custom Error Namespace
-#define ERR_MSINTERVAL_NOT_SET 1
-#define ERR_PERIODICINTERVAL_OVERRUN 2
+#include "GenericError.h"
 
 /**
  * Abstract Class ModuleBase, inherit from this to create a module
@@ -20,18 +18,18 @@
  */
 
 class ModuleBase {
-    public:
+	public:
+	std::vector<GenericPipe*> pipes; // Refer to: https://github.com/Saint-Francis-Robotics-Team2367/pipes
+	std::vector<uint8_t> constructorArgs; 
+	std::queue<GenericError*> errors; // It's your responsibility to report these reasonably
 
-    std::vector<GenericPipe*> pipes; // Refer to: https://github.com/Saint-Francis-Robotics-Team2367/pipes
-    std::vector<uint8_t> constructorArgs; 
+	int msInterval; 
 
-    int msInterval; 
+	void init(std::vector<GenericPipe*>); // Init is implemented as it is common between modules
 
-    void init(std::vector<GenericPipe*>); // Init is implemented as it is common between modules
-
-    // Pure Virtual Functions; these are two functions that you implement when you subclass this
-    virtual void periodicRoutine() = 0;
-    virtual void periodicInit() = 0;
+	// Pure Virtual Functions; these are two functions that you implement when you subclass this
+	virtual void periodicRoutine() = 0;
+	virtual void periodicInit() = 0;
 
 };
 
