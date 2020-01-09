@@ -8,10 +8,11 @@
 
 #include "GenericPipe.h"
 #include "ModuleBase.h"
+#include "Robot.h"
 
 class Constructor {
     public:
-    static bool constructThreadedRobot(std::vector<ModuleBase*>);
+    static bool constructThreadedRobot(std::vector<ModuleBase*>, Robot*);
 };
 
 #endif

@@ -13,7 +13,7 @@ To make your subclass of ModuleBase able to placed and routed in the graph, init
 The constructor will fail if you say you have a connection to a module, but that module does not say it has a connection to you
 */
 
-bool Constructor::constructThreadedRobot(std::vector<ModuleBase*> modules) {
+bool Constructor::constructThreadedRobot(std::vector<ModuleBase*> modules, Robot* stateRef) {
 	std::vector< std::vector<GenericPipe*> > pipes = {{ nullptr }};
 	
 	// There is certainly a better way to do this
@@ -43,6 +43,6 @@ bool Constructor::constructThreadedRobot(std::vector<ModuleBase*> modules) {
 	}
 	// For each element of the vector<ModuleBase*>, create a new thread for the function ModuleBase::init and pass it the correct pipes
 
-	for (uint8_t i = 0; i < modules.size(); i++) { std::thread(&ModuleBase::init, modules[i], pipes[i]); }
+	for (uint8_t i = 0; i < modules.size(); i++) { std::thread(&ModuleBase::init, modules[i], pipes[i], stateRef); }
 	return true;
 }
