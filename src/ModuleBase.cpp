@@ -16,7 +16,7 @@ void ModuleBase::init(std::vector<GenericPipe*> pipes, Robot* stateRef) {
 		
 		// Optimize this
 		if (std::chrono::steady_clock::now() > nextRun) { // periodicRoutine() has overrun its set interval
-				errors.push(new GenericError("Execution interval overrun! Behind schedule!", 3));
+				errors.push(new Message("Execution interval overrun! Behind schedule!", 3));
 				continue;
 		}
 

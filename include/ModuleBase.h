@@ -22,7 +22,7 @@ class ModuleBase {
 	public:
 	std::vector<GenericPipe*> pipes; // Refer to: https://github.com/Saint-Francis-Robotics-Team2367/pipes
 	std::vector<uint8_t> constructorArgs; 
-	std::queue<GenericError*> errors; // It's your responsibility to report these reasonably
+	std::queue<Message*> errors; // It's your responsibility to report these reasonably
 
 	Robot* stateRef;
 	int msInterval; 
