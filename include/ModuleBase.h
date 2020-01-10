@@ -9,7 +9,6 @@
 #include <chrono>
 
 #include "GenericPipe.h"
-#include "GenericError.h"
 #include "Robot.h"
 
 /**
