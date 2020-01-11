@@ -34,7 +34,7 @@ bool Constructor::constructThreadedRobot(std::vector<ModuleBase*> modules, Robot
 			uint8_t positionInTarget;
 
 			for (uint8_t k = 0; k < targetArg.size(); k++) {
-				if (i == targetArg[k]) { positionInTarget = k; break; }
+				if (i == targetArg[k] && !(pipes[reference][k])) { positionInTarget = k; break; }
 				if (k == (targetArg.size() - 1)) { return false; }
 			}
 
