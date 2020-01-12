@@ -9,14 +9,21 @@ void ModuleBase::init(std::vector<GenericPipe*> pipes, Robot* stateRef) {
 
 	periodicInit(); // Run the module's init
 
+	Message* startP = new Message();
+	startP->val = 0;
+	startP->str = "ModuleBase starting periodicRoutine()";
+	errors.push(startP);
+
 	while (true) { // Can add some termination flag in the future if necessary
 		auto nextRun = std::chrono::steady_clock::now() + std::chrono::milliseconds(msInterval);
-		
 		periodicRoutine(); // Run the module's code
 		
 		// Optimize this
 		if (std::chrono::steady_clock::now() > nextRun) { // periodicRoutine() has overrun its set interval
-				errors.push(new Message("Execution interval overrun! Behind schedule!", 3));
+				Message* over = new Message();
+				over->val = 3;
+				over->str = "Execution Interval Overrun!";
+				errors.push(over);
 				continue;
 		}
 

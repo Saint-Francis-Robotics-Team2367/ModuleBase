@@ -20,15 +20,15 @@
 class ModuleBase {
 	public:
 	std::vector<GenericPipe*> pipes; // Refer to: https://github.com/Saint-Francis-Robotics-Team2367/pipes
-	std::vector<uint8_t> constructorArgs; 
 	std::queue<Message*> errors; // It's your responsibility to report these reasonably
 
-	Robot* stateRef;
 	int msInterval; 
+	Robot* stateRef;
 
 	void init(std::vector<GenericPipe*>, Robot*); // Init is implemented as it is common between modules
-
+	
 	// Pure Virtual Functions; these are two functions that you implement when you subclass this
+	virtual std::vector<uint8_t> getConstructorArgs() = 0;
 	virtual void periodicRoutine() = 0;
 	virtual void periodicInit() = 0;
 
