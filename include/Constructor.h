@@ -5,14 +5,15 @@
 
 #include <thread>
 #include <vector>
+#include <iostream>
 
 #include "GenericPipe.h"
 #include "ModuleBase.h"
 #include "Robot.h"
 
 class Constructor {
-    public:
-    static bool constructThreadedRobot(std::vector<ModuleBase*>, Robot*);
+  public:
+  static bool constructThreadedRobot(std::vector<ModuleBase*>, Robot*);
 };
 
 #endif
