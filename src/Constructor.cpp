@@ -28,7 +28,7 @@ bool Constructor::constructThreadedRobot(std::vector<ModuleBase*> modules, Robot
     std::vector<uint8_t> thisArg = thisModule->getConstructorArgs();
 
     std::cout << "Module: " << (int)i << std::endl;
-    std::cout << "	Number of Connections: " << thisArg.size() << std::endl;
+    std::cout << "  Number of Connections: " << thisArg.size() << std::endl;
 
     for (uint8_t j = 0; j < thisArg.size(); j++) {
       std::cout << "    Pipe: " << (int)j << std::endl;			
