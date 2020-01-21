@@ -9,8 +9,6 @@ void ModuleBase::init(std::vector<GenericPipe*> pipes, Robot* stateRef) {
 
   periodicInit(); // Run the module's init
 
-  errors.push(new Message("Starting Periodic", 0));
-
   while (true) { // Can add some termination flag in the future if necessary
     auto nextRun = std::chrono::steady_clock::now() + std::chrono::milliseconds(msInterval);
     periodicRoutine(); // Run the module's code
